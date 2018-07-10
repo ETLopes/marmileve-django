@@ -1,2 +1,8 @@
-<h2> Marmileve </h2>
-<p> Teste um dois 3</p>
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h2> Marmileve </h2>
+    {{ request.user.is_authenticated }}
+    <p> Teste um dois 3</p>
+{% endblock %}
