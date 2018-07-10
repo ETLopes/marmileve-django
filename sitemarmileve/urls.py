@@ -1,9 +1,8 @@
 from django.urls import path
 
-from . import views
+from sitemarmileve.views import index
 
-app_name = 'sitemarmileve'
 
 urlpatterns = [
-    path('', views.Index, name='index')
+    path('', index, name='index')
 ]
