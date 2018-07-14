@@ -1,0 +1,13 @@
+{% extends 'sitemarmileve/base.html' %}
+
+{% block content %}
+    <h2> Marmileve - Pratos </h2>
+    <p> Teste um dois 3</p>
+<ul>
+    {% for i in my_context %}
+    {% if i.tam_text == 'G' %}
+    <li>{{ forloop.counter }} - {{i.prato_text|upper}} - {{i.tam_text|lower}} </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endblock%}

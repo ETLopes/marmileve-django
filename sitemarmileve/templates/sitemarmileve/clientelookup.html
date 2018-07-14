@@ -1,0 +1,9 @@
+{% extends 'sitemarmileve/base.html' %}
+
+{% block content %}
+
+<h1>Hello</h1>
+<form action="." method="POST">{% csrf_token %}
+    <h3>Você realmente deseja deletar o cliente {{ object.nome_text }}</h3>
+    <p><input type="submit" value="Yes"/> <a href="../">Cancel</a> </p>
+{% endblock %}

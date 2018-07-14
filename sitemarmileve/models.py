@@ -23,6 +23,7 @@ class Produto(models.Model):
 
 class Cliente(models.Model):
     nome_text = models.CharField(max_length=200)
+    email = models.EmailField()
     cpf = models.CharField(max_length=200)
 
     def __str__(self):
@@ -39,3 +40,21 @@ class Endereco(models.Model):
 
     def __str__(self):
         return self.endereco_text
+
+
+class Pedido(models.Model):
+    nome = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    email = models.EmailField()
+    cpf = models.CharField(max_length=13)
+
+    def __str__(self):
+        return str(self.nome)
+
+
+class ItemPedido(models.Model):
+    item = models.AutoField()
+    data = models.DateField(auto_now=True)
+    prato = models.CharField(max_length=200)
+    tamanho = models.CharField(max_length=1)
+    qtd = models.PositiveSmallIntegerField()
+

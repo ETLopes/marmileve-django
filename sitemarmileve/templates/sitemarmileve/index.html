@@ -1,8 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'sitemarmileve/base.html' %}
 
 
 {% block content %}
-    <h2> Marmileve </h2>
+    <h2> Marmileve - Início</h2>
     {{ request.user.is_authenticated }}
-    <p> Teste um dois 3</p>
+        <p> Teste um dois 3</p>
+        <p> {{ my_text }}</p>
+        <p> {{ my_number }}</p>
+
+    <ul>
+        {% for i in my_list %}
+        <li>{{ forloop.counter }} - {{ i }}</li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}

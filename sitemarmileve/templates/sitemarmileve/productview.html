@@ -1,0 +1,15 @@
+{% extends 'sitemarmileve/base.html' %}
+
+{% block content %}
+
+<h1>Lista de Produtos</h1>
+
+{{ object_list }}
+
+{% for i in object_list %}
+
+<p><a href="/clientelookup/{{i.id}}">{{i.nome_text}}</a> - {{ i.cpf }}</p>
+
+{% endfor %}
+
+{% endblock %}
