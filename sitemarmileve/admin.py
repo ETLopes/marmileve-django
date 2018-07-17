@@ -14,10 +14,25 @@ class ProdutoAdmin(admin.ModelAdmin):
 class PedidoAdmin(admin.ModelAdmin):
     list_display = ['id', 'nome', 'email', 'cpf']
 
+    class Meta:
+        model = Pedido
+
+class ItemPedidoAdmin(admin.ModelAdmin):
+    list_display = ['id','pedido', 'prato', 'tamanho', 'qtd', 'data']
+
+    class Meta:
+        model = ItemPedido
+
+class ClienteAdmin(admin.ModelAdmin):
+    list_display = ['id','nome_text', 'email', 'cpf']
+
+    class Meta:
+        model = Cliente
+
 
 admin.site.register(Produto, ProdutoAdmin)
-admin.site.register(Cliente)
+admin.site.register(Cliente,ClienteAdmin)
 admin.site.register(Endereco)
 admin.site.register(NumeroProduto)
 admin.site.register(Pedido, PedidoAdmin)
-admin.site.register(ItemPedido)
+admin.site.register(ItemPedido,ItemPedidoAdmin)

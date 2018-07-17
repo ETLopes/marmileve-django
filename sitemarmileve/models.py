@@ -43,7 +43,7 @@ class Endereco(models.Model):
 
 
 class Pedido(models.Model):
-    nome = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=200)
     email = models.EmailField()
     cpf = models.CharField(max_length=13)
 
@@ -52,9 +52,12 @@ class Pedido(models.Model):
 
 
 class ItemPedido(models.Model):
-    item = models.AutoField()
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     data = models.DateField(auto_now=True)
     prato = models.CharField(max_length=200)
     tamanho = models.CharField(max_length=1)
     qtd = models.PositiveSmallIntegerField()
+
+    def __str__(self):
+        return str(self.id)
 

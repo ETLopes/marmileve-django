@@ -1,0 +1,34 @@
+{% block content %}
+
+<form action="." method="POST"> {% csrf_token %}
+<li>
+    <ul>
+        <select name="dropdown_cliente">
+            {% for i in clientes %}
+            <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+    </ul>
+    <ul>
+        <select name="dropdown_email">
+            {% for i in emails %}
+            <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+    </ul>
+    <ul>
+        <select name="dropdown_cpf">
+            {% for i in cpfs %}
+            <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+    </ul>
+
+</li>
+
+
+    <input type="submit" value="Save"/>
+</form>
+
+
+{% endblock %}
