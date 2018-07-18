@@ -4,60 +4,58 @@ from django.db import models
 # Create your models here.
 
 class NumeroProduto(models.Model):
-    pratonumero = models.IntegerField()
+    pratonumero = models.IntegerField(unique=True)
 
     def __str__(self):
         return str(self.pratonumero)
 
 
 class Produto(models.Model):
-    prato = models.ForeignKey(NumeroProduto, on_delete=models.CASCADE)
-    prato_text = models.CharField(max_length=200)
-    tam_text = models.CharField(max_length=1)
+    pratonumero = models.ForeignKey(NumeroProduto, on_delete=models.CASCADE)
+    prato = models.CharField(max_length=200)
+    tam = models.CharField(max_length=1)
     pub_date = models.DateTimeField('Data de adição')
     ativo = models.BooleanField()
 
     def __str__(self):
-        return self.prato_text
+        return self.prato
 
 
 class Cliente(models.Model):
-    nome_text = models.CharField(max_length=200)
+    nome = models.CharField(max_length=200, unique=True)
     email = models.EmailField()
     cpf = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.nome_text
-
-
-class Endereco(models.Model):
-    nome = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    endereco_text = models.CharField(max_length=200)
-    numero_text = models.IntegerField()
-    complemento_text = models.CharField(max_length=200)
-    bairro_text = models.CharField(max_length=200)
-    cidade_text = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.endereco_text
-
-
-class Pedido(models.Model):
-    nome = models.CharField(max_length=200)
-    email = models.EmailField()
-    cpf = models.CharField(max_length=13)
 
     def __str__(self):
         return str(self.nome)
 
 
-class ItemPedido(models.Model):
-    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
-    data = models.DateField(auto_now=True)
-    prato = models.CharField(max_length=200)
-    tamanho = models.CharField(max_length=1)
-    qtd = models.PositiveSmallIntegerField()
+class Endereco(models.Model):
+    nome_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    endereco = models.CharField(max_length=200)
+    numero = models.IntegerField()
+    complemento = models.CharField(max_length=200)
+    bairro = models.CharField(max_length=200)
+    cidade = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.endereco
+
+
+class Pedido(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    nome = models.ForeignKey(Cliente, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.id)
 
+
+class ItemPedido(models.Model):
+    pedido_id = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    prato = models.CharField(max_length=200)
+    tamanho = models.CharField(max_length=1)
+    qtd = models.PositiveSmallIntegerField()
+    data = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return str(self.pedido_id)

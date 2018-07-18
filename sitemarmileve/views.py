@@ -1,8 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.utils import timezone
-import datetime
-
-from .forms import RawClienteForm, ClienteForm, AddPedidoForm, AddItemForm
+from .forms import ClienteForm, AddPedidoForm, AddItemForm
 from .models import Produto, Cliente, Pedido, ItemPedido
 
 
@@ -16,10 +13,10 @@ def index(request):
     return render(request, template_name, context)
 
 
-def pratos(request):
+def pratos(request, produtos):
     template_name = 'sitemarmileve/pratos.html'
-    my_context = Produto.objects.all()
-    return render(request, template_name, {'my_context': my_context})
+
+    return render(request, template_name, {'my_context': produtos})
 
 
 def cliente(request):
@@ -57,28 +54,6 @@ def product_list_view(request):
 
 def addpedido(request):
     template = 'sitemarmileve/addpedido.html'
-    clientes = Cliente.objects.all()
-
-    def listaclientes(clientes):
-        lista = []
-        for i in clientes:
-            if i.nome_text not in lista:
-                lista.append(i.nome_text)
-        return sorted(lista)
-
-    def listaemail(clientes):
-        lista = []
-        for i in clientes:
-            if i.email not in lista:
-                lista.append(i.email)
-        return sorted(lista)
-
-    def listacpf(clientes):
-        lista = []
-        for i in clientes:
-            if i.cpf not in lista:
-                lista.append(i.cpf)
-        return sorted(lista)
 
     lista_clientes = listaclientes(clientes)
     lista_email = listaemail(clientes)
@@ -88,6 +63,7 @@ def addpedido(request):
     nome = request.POST.get('dropdown_cliente')
     email = request.POST.get('dropdown_email')
     cpf = request.POST.get('dropdown_cpf')
+
     if request.method == 'GET':
         form = AddPedidoForm()
     else:
@@ -131,4 +107,32 @@ def additem(request, id):
                }
     return render(request, template, context)
 
-# Create your views here.
+
+# listas abaixo
+
+clientes = Cliente.objects.all()
+produtos = Produto.objects.all()
+
+
+def listaclientes(clientes):
+    lista = []
+    for i in clientes:
+        if i.nome not in lista:
+            lista.append(i.nome)
+    return sorted(lista)
+
+
+def listaemail(clientes):
+    lista = []
+    for i in clientes:
+        if i.email not in lista:
+            lista.append(i.email)
+    return sorted(lista)
+
+
+def listacpf(clientes):
+    lista = []
+    for i in clientes:
+        if i.cpf not in lista:
+            lista.append(i.cpf)
+    return sorted(lista)
