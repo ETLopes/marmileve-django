@@ -1,32 +1,51 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ClienteForm, AddPedidoForm, AddItemForm
-from .models import Produto, Cliente, Pedido, ItemPedido
+from .models import Cliente, Pedido, ItemPedido, Prato, Endereco
+
+clientes = Cliente.objects.all()
+produtos = Prato.objects.all()
+
+
+def listaclientes(clientes):
+    lista = []
+    for i in clientes:
+        if i.nome not in lista:
+            lista.append(i.nome)
+    return sorted(lista)
+
+
+def listaemail(clientes):
+    lista = []
+    for i in clientes:
+        if i.email not in lista:
+            lista.append(i.email)
+    return sorted(lista)
+
+
+def listacpf(clientes):
+    lista = []
+    for i in clientes:
+        if i.cpf not in lista:
+            lista.append(i.cpf)
+    return sorted(lista)
+
+
+lista_clientes = listaclientes(clientes)
 
 
 def index(request):
     template_name = 'sitemarmileve/index.html'
-    context = {
-        'my_text': 'This is my text',
-        'my_number': 123,
-        'my_list': [123, 456, 689]
-    }
+    context = {}
     return render(request, template_name, context)
-
-
-def pratos(request, produtos):
-    template_name = 'sitemarmileve/pratos.html'
-
-    return render(request, template_name, {'my_context': produtos})
 
 
 def cliente(request):
     template = 'sitemarmileve/cliente.html'
-    cli = Cliente.objects.get(pk=1)
-    context = {'cli': cli}
+    context = {}
     return render(request, template, context)
 
 
-def cliente_create_view(request):
+def cliente_create(request):
     form = ClienteForm(request.POST or None)
     context = {'form': form}
     template = 'sitemarmileve/cliente_create.html'
@@ -35,14 +54,33 @@ def cliente_create_view(request):
     return render(request, template, context)
 
 
-def cliente_lookup(request, my_id):
-    obj = get_object_or_404(Cliente, pk=my_id)
-    context = {'object': obj}
-    template = 'sitemarmileve/clientelookup.html'
-    if request.method == 'POST':
-        obj.delete()
-        return redirect('../../')
+def cliente_lookup(request):
+    template = 'sitemarmileve/cliente_lookup.html'
+    endereco = []
+    if request.method == 'GET':
+        form = ClienteForm()
+    else:
+        nome = request.POST.get('nome')
+        obj = Cliente.objects.get(nome=nome)
+        id = obj.id
+        for i in (Endereco.objects.filter(cliente_id=id)):
+            endereco.append(i)
+
+        form = ClienteForm(instance=obj)
+
+
+    context = {'cliente': lista_clientes,
+               'form': form,
+               'endereco': endereco
+               }
+    print(endereco)
     return render(request, template, context)
+
+
+def pratos(request, produtos):
+    template_name = 'sitemarmileve/pratos.html'
+
+    return render(request, template_name, {'my_context': produtos})
 
 
 def product_list_view(request):
@@ -83,7 +121,7 @@ def additem(request, id):
     template = 'sitemarmileve/additem.html'
     form = AddItemForm(request.POST or None)
     pedidos = get_object_or_404(Pedido, pk=id)
-    prod = Produto.objects.all()
+    prod = Prato.objects.all()
 
     def lista_produtos(prod):
         lista = []
@@ -107,32 +145,4 @@ def additem(request, id):
                }
     return render(request, template, context)
 
-
 # listas abaixo
-
-clientes = Cliente.objects.all()
-produtos = Produto.objects.all()
-
-
-def listaclientes(clientes):
-    lista = []
-    for i in clientes:
-        if i.nome not in lista:
-            lista.append(i.nome)
-    return sorted(lista)
-
-
-def listaemail(clientes):
-    lista = []
-    for i in clientes:
-        if i.email not in lista:
-            lista.append(i.email)
-    return sorted(lista)
-
-
-def listacpf(clientes):
-    lista = []
-    for i in clientes:
-        if i.cpf not in lista:
-            lista.append(i.cpf)
-    return sorted(lista)

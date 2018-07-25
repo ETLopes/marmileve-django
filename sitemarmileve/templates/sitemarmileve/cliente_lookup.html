@@ -1,0 +1,32 @@
+{% extends 'sitemarmileve/base.html' %}
+
+{% block content %}
+
+<h2> Digite o nome do cliente abaixo</h2>
+
+<form action="." method="POST"> {% csrf_token %}
+
+    <p>Nome: {{ form.nome }}</p>
+    <p>Email: <strong>{{ form.email }}</strong></p>
+    <p>Cpf: {{ form.cpf }}</p>
+
+
+    <input type="submit" value="Checar"/>
+</form>
+
+
+<h2>Endereço: </h2>
+{% for i in endereco%}
+<ul>
+    <li> Rua: {{i.endereco }}</li>
+    <li> Numero: {{i.numero }}</li>
+    <li> Complemento: {{i.complemento }}</li>
+    <li> Bairro: {{i.bairro }}</li>
+    <li> Cidade: {{ i.cidade }}</li>
+
+</ul>
+
+
+{% endfor%}
+
+{% endblock %}

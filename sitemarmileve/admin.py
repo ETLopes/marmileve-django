@@ -1,29 +1,22 @@
 from django.contrib import admin
 
-from .models import NumeroProduto, Cliente, Endereco, Produto, Pedido, ItemPedido
+from .models import Prato, Preco, Cliente, Endereco, Pedido, ItemPedido, Estoque
 
 
 # Register your models here.
 
-class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ['prato', '__str__', 'tam', 'pub_date', 'ativo']
+class PratoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'prato', 'pratonumero', 'tamanho', 'active']
 
     class Meta:
-        model = Produto
+        model = Prato
 
 
-class PedidoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nome']
-
-    class Meta:
-        model = Pedido
-
-
-class ItemPedidoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'pedido_id', 'prato', 'tamanho', 'qtd', 'data']
+class PrecoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'prato', 'preco', 'data_ativo']
 
     class Meta:
-        model = ItemPedido
+        model = Preco
 
 
 class ClienteAdmin(admin.ModelAdmin):
@@ -33,9 +26,31 @@ class ClienteAdmin(admin.ModelAdmin):
         model = Cliente
 
 
-admin.site.register(Produto, ProdutoAdmin)
+class EnderecoAdmin(admin.ModelAdmin):
+    list_display = ['cliente', 'endereco', 'numero', 'complemento', 'bairro', 'cidade']
+
+    class Meta:
+        model = Endereco
+
+
+class PedidoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nome', 'endereco']
+
+    class Meta:
+        model = Pedido
+
+
+class ItemPedidoAdmin(admin.ModelAdmin):
+    list_display = ['pedido', 'id', 'prato', 'tamanho', 'qtd', 'data_pedido']
+
+    class Meta:
+        model = ItemPedido
+
+
+admin.site.register(Prato, PratoAdmin)
 admin.site.register(Cliente, ClienteAdmin)
-admin.site.register(Endereco)
-admin.site.register(NumeroProduto)
+admin.site.register(Endereco, EnderecoAdmin)
 admin.site.register(Pedido, PedidoAdmin)
 admin.site.register(ItemPedido, ItemPedidoAdmin)
+admin.site.register(Preco, PrecoAdmin)
+admin.site.register(Estoque)
