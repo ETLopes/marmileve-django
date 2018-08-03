@@ -1,12 +1,12 @@
 from django import forms
 
-from .models import Cliente, ItemPedido
+from .models import Cliente, ItemPedido, Endereco
 
 
 class ClienteForm(forms.ModelForm):
     nome = forms.CharField(max_length=200)
-    email = forms.CharField(required=False, disabled=True)
-    cpf = forms.CharField(required=False, disabled=True)
+    email = forms.CharField(required=False)
+    cpf = forms.CharField(required=False)
 
     class Meta:
         model = Cliente
@@ -15,6 +15,19 @@ class ClienteForm(forms.ModelForm):
             'email',
             'cpf'
         ]
+
+class EnderecoForm(forms.ModelForm):
+
+    class Meta:
+        model = Endereco
+        fields = [
+            'endereco',
+            'numero',
+            'complemento',
+            'bairro',
+            'cidade',
+        ]
+
 
 
 class AddPedidoForm(forms.Form):

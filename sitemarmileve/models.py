@@ -8,7 +8,6 @@ class Cliente(models.Model):
     nome = models.CharField(max_length=200, unique=True)
     email = models.EmailField()
     cpf = models.CharField(max_length=200)
-    telefone = models.CharField(max_length=11)
 
     def __str__(self):
         return str(self.nome)
@@ -21,6 +20,7 @@ class Endereco(models.Model):
     complemento = models.CharField(max_length=200)
     bairro = models.CharField(max_length=200)
     cidade = models.CharField(max_length=200)
+    endereco_ativo = models.BooleanField()
 
     def __str__(self):
         return self.endereco

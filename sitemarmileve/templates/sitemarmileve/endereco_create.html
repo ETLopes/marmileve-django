@@ -1,0 +1,21 @@
+{% extends 'sitemarmileve/base.html' %}
+
+{% block content %}
+
+<ul>
+    <li>
+        {{obj_cliente.nome}}
+    </li>
+</ul>
+
+
+<ol>
+    <li>
+        <form action="." method="POST"> {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save"/>
+</form>
+    </li>
+</ol>
+
+{% endblock %}
