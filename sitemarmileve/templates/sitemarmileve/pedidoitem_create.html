@@ -1,0 +1,56 @@
+{% extends 'sitemarmileve/base.html' %}
+
+<h1>Pedido - {{pedidos.id}} - {{pedidos.nome}} </h1>
+
+{% block content %}
+
+<form action="." method="POST"> {% csrf_token %}
+    <ol>
+        <li>
+            <select name="dropdown_prato">
+                {% for i in produtos %}
+                <option value="{{ i }}">{{forloop.counter}} - {{ i }}</option>
+                {% endfor %}
+            </select>
+        </li>
+        <li>
+            <select name="dropdown_tamanho">
+                {% for i in tamanho %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+        </li>
+        <li>
+            <select name="dropdown_qtd">
+                {% for i in qtd %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+
+        </li>
+
+    </ol>
+    <input type="submit" value="Save"/>
+</form>
+
+
+
+<table border="1px">
+
+    <tr>
+        <th>Nome do Prato</th>
+        <th>Tam.</th>
+        <th>Qtd.</th>
+    </tr>
+{% for i in itempedido %}
+    <tr>
+        <td width="300px" align="left">{{i.prato}}</td>
+        <td width="50px" align="center">{{ i.tamanho|upper }}</td>
+        <td width="50px"align="center">{{i.qtd }}</td>
+    </tr>
+{% endfor %}
+</table>
+
+<a class="btn btn-primary" href="/pedido/pedido_create/{{pedidos.id}}/pedidoitem_create/pedido_success">Finalizar</a>
+
+{% endblock %}

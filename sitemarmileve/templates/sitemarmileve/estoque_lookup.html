@@ -1,0 +1,47 @@
+{% extends 'sitemarmileve/base.html' %}
+
+{% block content%}
+
+
+<h2>Checagem de Estoque</h2>
+<div>
+    <div>
+        <table border="1px" style="float: left;width:40%">
+            <tr style="background-color: #AFD56C; color: white">
+                <th> Prato</th>
+                <th> Tamanho</th>
+                <th> Qtd</th>
+            </tr>
+            {% for i in form %}
+            {% if i.tamanho == 'P'%}
+            <tr style="background-color: #E77D23; color: black">
+                <td style="width:70%">{{ i.prato }}</td>
+                <td style="width:15%">{{ i.tamanho }}</td>
+                <td style="width:15%">{{ i.sum }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+    <div>
+        <table border="1px" style="float: left;width:40%">
+            <tr style="background-color: green; color: white">
+                <th style="width:70%"> Prato</th>
+                <th style="width:15%"> Tamanho</th>
+                <th style="width:15%"> Qtd</th>
+            </tr>
+
+            {% for i in form %}
+            {% if i.tamanho == 'G'%}
+            <tr style="background-color: orange; color: white">
+                <td>{{i.prato}}</td>
+                <td>{{ i.tamanho }}</td>
+                <td>{{ i.sum }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+
+    </div>
+</div>
+{% endblock %}

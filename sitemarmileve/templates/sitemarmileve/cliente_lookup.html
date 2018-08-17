@@ -7,7 +7,7 @@
 <form action="." method="POST"> {% csrf_token %}
 
     <p>Nome: {{ form.nome }}</p>
-    <p>Email: <strong>{{ form.email }}</strong></p>
+    <p>Email: {{ form.email }}</p>
     <p>Cpf: {{ form.cpf }}</p>
 
 

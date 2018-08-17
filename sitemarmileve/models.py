@@ -7,6 +7,7 @@ from django.db import models
 class Cliente(models.Model):
     nome = models.CharField(max_length=200, unique=True)
     email = models.EmailField()
+    telefone = models.CharField(max_length=11)
     cpf = models.CharField(max_length=200)
 
     def __str__(self):
@@ -27,49 +28,57 @@ class Endereco(models.Model):
 
 
 class Prato(models.Model):
-    prato = models.CharField(max_length=200)
     pratonumero = models.SmallIntegerField()
-    tamanho = models.CharField(max_length=1, choices=(('p', 'Pequeno'), ('g', 'Grande'), ('s', 'Sopa')))
+    prato = models.CharField(max_length=200)
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return str(self.prato + ' - ' + self.tamanho)
+        return str(self.prato)
 
 
 class Preco(models.Model):
-    prato = models.ForeignKey(Prato, on_delete=models.CASCADE)
+    tamanho = models.CharField(max_length=1, choices=(('P', 'Pequeno'), ('G', 'Grande'), ('S', 'Sopa')))
     preco = models.DecimalField(decimal_places=2, max_digits=4)
-    data_ativo = models.DateField(
-        auto_now_add=True)  # A data a partir da qual tamanho e preço são validos para cada prato.
+    data_ativo = models.DateField()  # A data a partir da qual tamanho e preço são validos para cada prato.
 
     def ___str__(self):
-        return self.prato
+        return self.tamanho
 
 
 class Estoque(models.Model):
     prato = models.ForeignKey(Prato, on_delete=models.CASCADE)
-    tamanho = models.CharField(max_length=1, choices=(('p', 'Pequeno'), ('g', 'Grande'), ('s', 'Sopa')))
+    tamanho = models.CharField(max_length=1, choices=(('P', 'Pequeno'), ('G', 'Grande'), ('S', 'Sopa')))
     qtd = models.PositiveSmallIntegerField()
-    data_fabricacao = models.DateField(auto_now_add=True)
+    data_fabricacao = models.DateField()
 
-    def __str__(self):
-        return self.prato
-
-
-class Pedido(models.Model):
-    nome = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    endereco = models.CharField(max_length=200)
 
     def __str__(self):
         return str(self.id)
 
 
+class Pedido(models.Model):
+    nome = models.CharField(max_length=200)
+    endereco = models.CharField(max_length=200, default="a")
+    data = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return str(self.nome)
+
+
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
-    prato = models.ForeignKey(Prato, on_delete=models.CASCADE)
-    tamanho = models.CharField(max_length=1, choices=(('p', 'Pequeno'), ('g', 'Grande'), ('s', 'Sopa')))
+    prato = models.CharField(max_length=200)
+    tamanho = models.CharField(max_length=1, choices=(('P', 'Pequeno'), ('G', 'Grande'), ('S', 'Sopa')))
     qtd = models.PositiveSmallIntegerField()
     data_pedido = models.DateField(auto_now=True)
 
     def __str__(self):
         return str(self.pedido)
+
+
+class EstoqueCheck(models.Model):
+    source = models.CharField(max_length=200)
+    sourceid = models.IntegerField()
+    prato = models.CharField(max_length=200)
+    tamanho = models.CharField(max_length=1)
+    qtd = models.IntegerField()

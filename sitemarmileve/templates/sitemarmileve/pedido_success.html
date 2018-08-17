@@ -1,0 +1,29 @@
+{% extends 'sitemarmileve/base.html' %}
+
+{% block content %}
+
+<h2> Pedido {{pedido.id}} adicionado com sucesso </h2>
+
+<h3> Detalhes do Pedido </h3>
+
+<h4>Nome: {{pedido.nome}} </h4>
+<h4>Endereço: {{pedido.endereco}} </h4>
+<h4>Telefone: {{cliente.telefone}} </h4>
+
+<table border="1px">
+
+    <tr>
+        <th>Nome do Prato</th>
+        <th>Tam.</th>
+        <th>Qtd.</th>
+    </tr>
+{% for i in itempedido %}
+    <tr>
+        <td width="300px" align="left">{{i.prato}}</td>
+        <td width="50px" align="center">{{ i.tamanho|upper }}</td>
+        <td width="50px"align="center">{{i.qtd }}</td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% block content %}
+
+<form action="." method="POST"> {% csrf_token %}
+    <select name="dropdown_nome">
+        {% for i in nome %}
+        <option value="{{ i }}"> {{ i }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="dropdown_endereco">
+        {% for i in endereco %}
+        <option value="{{ i }}">{{forloop.counter}} - {{ i }}</option>
+        {% endfor %}
+    </select>
+
+
+    <input type="submit" value="Save"/>
+</form>
+
+
+{% endblock %}
