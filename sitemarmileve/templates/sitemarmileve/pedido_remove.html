@@ -1,0 +1,36 @@
+{% extends 'sitemarmileve/base.html' %}
+
+<br>
+
+
+{% block content %}
+<h2>Remover Pedidos</h2>
+
+<form action="." method="POST"> {% csrf_token %}
+
+    <select name="dropdown_id">
+        {% for i in pedidos %}
+        <option value="{{ i.id }}"> {{ i.id }}</option>
+        {% endfor %}
+    </select>
+
+    <input type="submit" value="Checar"/>
+</form>
+
+
+<table border="1px">
+    <tr>
+        <th>Prato</th>
+        <th>Tamanho</th>
+        <th>Qtd</th>
+    </tr>
+{% for i in detalhes %}
+    <tr>
+        <td>{{i.prato}}</td>
+    </tr>
+{% endfor %}
+</table>
+<h4></h4>
+
+
+{% endblock %}

@@ -40,7 +40,8 @@ class PedidoForm(forms.Form):
         model = Pedido
         fields = [
             'nome',
-            'endereco'
+            'endereco',
+            'id'
         ]
 
 

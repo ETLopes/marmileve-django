@@ -191,7 +191,7 @@ def pedidoitem_create(request, id):
     if request.method == 'POST':
         prato = request.POST.get('dropdown_prato')
         tamanho = request.POST.get('dropdown_tamanho')
-        print(tamanho)
+
         qtd = request.POST.get('dropdown_qtd')
         formulario = ItemPedido(prato=prato, tamanho=tamanho, qtd=qtd, pedido_id=id)
         formulario.save()
@@ -201,12 +201,22 @@ def pedidoitem_create(request, id):
 
     return render(request, template_name, context)
 
+
 def pedido_remove(request):
     template_name = 'sitemarmileve/pedido_remove.html'
     pedidos = Pedido.objects.all()
     item = ItemPedido.objects.all()
     context = {'pedidos': pedidos,
                'item': item}
+
+    if request.method == 'POST':
+        id = request.POST.get('dropdown_id')
+        detalhes = ItemPedido.objects.filter(pedido_id=id)
+
+        context = {'pedidos': pedidos,
+                   'item': item,
+                   'detalhes': detalhes}
+
     return render(request, template_name, context)
 
 
@@ -303,7 +313,6 @@ def estoque_lookup(request):
                 form_estoque.save()
 
     form = EstoqueCheck.objects.values('prato', 'tamanho').annotate(sum=Sum('qtd'))
-    print(form)
 
     context = {'form': form}
 

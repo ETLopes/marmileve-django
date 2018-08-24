@@ -1,5 +1,7 @@
-{% block content %}
+{% extends 'sitemarmileve/base.html' %}
 
+{% block content %}
+<br>
 <form action="." method="POST"> {% csrf_token %}
     <select name="dropdown_nome">
         {% for i in nome %}
