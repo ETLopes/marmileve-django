@@ -60,6 +60,7 @@ class Pedido(models.Model):
     nome = models.CharField(max_length=200)
     endereco = models.CharField(max_length=200, default="a")
     data = models.DateField(auto_now=True)
+    valortotal = models.DecimalField(default=None, decimal_places=2, max_digits=4, null=True)
 
     def __str__(self):
         return str(self.nome)
@@ -82,3 +83,8 @@ class EstoqueCheck(models.Model):
     prato = models.CharField(max_length=200)
     tamanho = models.CharField(max_length=1)
     qtd = models.IntegerField()
+
+class Frete(models.Model):
+    bairro = models.CharField(max_length=200)
+    cidade = models.CharField(max_length=200)
+    valorfrete = models.DecimalField(decimal_places=2, max_digits=4)

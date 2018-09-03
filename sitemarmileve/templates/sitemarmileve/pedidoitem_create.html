@@ -9,7 +9,7 @@
         <li>
             <select name="dropdown_prato">
                 {% for i in produtos %}
-                <option value="{{ i }}">{{forloop.counter}} - {{ i }}</option>
+                <option value="{{ i.prato }}">{{forloop.counter}} - {{ i.prato }}</option>
                 {% endfor %}
             </select>
         </li>

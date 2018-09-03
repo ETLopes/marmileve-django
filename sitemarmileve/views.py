@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ClienteForm, PedidoForm, AddItemForm, EnderecoForm, EstoqueForm
-from .models import Cliente, Pedido, ItemPedido, Prato, Endereco, Estoque, EstoqueCheck
+from .models import Cliente, Pedido, ItemPedido, Prato, Endereco, Estoque, EstoqueCheck, Preco, Frete
 from django.db.models import Sum
 
 """Página Inicial"""
@@ -118,10 +118,7 @@ def pedido(request):
 def pedido_create(request):
     template_name = 'sitemarmileve/pedido_create.html'
     form = PedidoForm()
-    nome_lista = []
-    for i in Cliente.objects.all():
-        print(i.nome)
-        nome_lista.append(i.nome)
+    nome_lista = Cliente.objects.all().order_by('nome')
     context = {
         'form': form,
         'nome': nome_lista
@@ -130,29 +127,20 @@ def pedido_create(request):
     if request.method == 'POST':
         form = PedidoForm()
 
-        endereco_lista = []
-        nome_lista = []
-
         nome = request.POST.get('dropdown_nome')
-        nome_lista.append(nome)
-        nome2 = Cliente.objects.get(nome=nome)
-        nome_id = nome2.id
-        endereco = Endereco.objects.filter(cliente_id=nome_id)
+        nome_lista = Cliente.objects.filter(nome=nome)
+        nome_lista2 = Cliente.objects.get(nome=nome)
 
-        for i in endereco:
-            endereco_lista.append(i.endereco)
+        endereco_lista = Endereco.objects.filter(cliente_id=nome_lista2.id)
+
+
         context = {'form': form,
                    'nome': nome_lista,
                    'endereco': endereco_lista}
 
         if request.POST.get('dropdown_endereco') == None:
-            print('número um')
-            print(request.POST.get('dropdown_endereco'))
             return render(request, template_name, context)
         else:
-            print('número 2')
-            print(nome)
-            print(nome2.nome)
             print(request.POST.get('dropdown_endereco'))
             endereco_nome = request.POST.get('dropdown_endereco')
             form_pedido = Pedido(nome=nome, endereco=endereco_nome)
@@ -166,23 +154,14 @@ def pedidoitem_create(request, id):
     template_name = 'sitemarmileve/pedidoitem_create.html'
     form = AddItemForm()
     pedidos = get_object_or_404(Pedido, pk=id)
-    prod = Prato.objects.all()
-
-    def lista_produtos(prod):
-        lista = []
-        for i in prod:
-            if i.prato not in lista:
-                lista.append(i.prato)
-        return sorted(lista)
+    prod = Prato.objects.filter(active=True).order_by('pratonumero')
 
     tamanho = ["P", "G", "S"]
-    qtd = range(1, 21)
-
-    listaprodutos = lista_produtos(prod)
+    qtd = range(1, 41)
 
     context = {'form': form,
                'pedidos': pedidos,
-               'produtos': listaprodutos,
+               'produtos': prod,
                'tamanho': tamanho,
                'qtd': qtd,
 
@@ -225,12 +204,60 @@ def pedido_success(request, id):
     pedido = Pedido.objects.get(pk=id)
     cliente = Cliente.objects.get(nome=pedido.nome)
     itempedido = ItemPedido.objects.filter(pedido_id=id)
+    preco = Preco.objects.all()
+    endereco = Endereco.objects.get(endereco=pedido.endereco)
+
+    def valortotal(itempedido):
+        soma = 0
+        qtd = 0
+        for i in itempedido:
+            for j in preco:
+                if i.tamanho == j.tamanho:
+                    soma += (j.preco * i.qtd)
+                    qtd += int(i.qtd)
+        print(qtd)
+        if qtd >= 25:
+            soma = (float(soma) * 0.85)
+        elif qtd >= 15:
+            soma = (float(soma) * 0.9)
+
+        bairro = Endereco.objects.get(endereco=pedido.endereco)
+        frete = Frete.objects.get(bairro=bairro.bairro)
+        print(frete)
+        pedido.valortotal = (float(soma)) + float(frete.valorfrete)
+        pedido.save()
+
+        return pedido.valortotal
+
     context = {
         'cliente': cliente,
         'pedido': pedido,
         'itempedido': itempedido,
+        'valortotal': valortotal(itempedido),
+        'endereco': endereco
     }
 
+    return render(request, template_name, context)
+
+
+def pedido_lookup(request):
+    template_name = 'sitemarmileve/pedido_lookup.html'
+    pedidos = Pedido.objects.all()
+
+    if request.method == 'POST':
+
+        pedidoid = request.POST.get('dropdown_id')
+        pedidos2 = Pedido.objects.get(id=pedidoid)
+        dadoscliente = Cliente.objects.get(nome=pedidos2.nome)
+        itempedido = ItemPedido.objects.filter(pedido_id=pedidoid)
+        context = {'pedidos': pedidos,
+                   'pedidos2': pedidos2,
+                   'dadoscliente': dadoscliente,
+                   'itempedido': itempedido}
+
+        return render(request, template_name, context)
+
+    context = {'pedidos': pedidos}
     return render(request, template_name, context)
 
 
@@ -313,8 +340,10 @@ def estoque_lookup(request):
                 form_estoque.save()
 
     form = EstoqueCheck.objects.values('prato', 'tamanho').annotate(sum=Sum('qtd'))
+    pratos = Prato.objects.all()
 
-    context = {'form': form}
+    context = {'form': form,
+               'pratos': pratos}
 
     return render(request, template_name, context)
 

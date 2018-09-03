@@ -1,0 +1,39 @@
+{% extends 'sitemarmileve/base.html' %}
+
+{% block content %}
+
+<form action="." method="POST"> {% csrf_token %}
+    <select name="dropdown_id">
+        {% for i in pedidos %}
+        <option value="{{ i.id }}"> {{ i.id }} - {{ i.nome }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Check"/>
+</form>
+
+<h2>Dados sobre o Pedido</h2>
+
+<ul>
+    <li> {{ pedidos2.nome }} </li>
+    <li> {{ pedidos2.endereco }} </li>
+    <li> {{ dadoscliente.email }} </li>
+    <li> {{ pedidos2.valortotal }} </li>
+</ul>
+
+<table border="1px">
+
+    <tr>
+        <th>Nome do Prato</th>
+        <th>Tam.</th>
+        <th>Qtd.</th>
+    </tr>
+{% for i in itempedido %}
+    <tr>
+        <td width="300px" align="left">{{i.prato}}</td>
+        <td width="50px" align="center">{{ i.tamanho|upper }}</td>
+        <td width="50px"align="center">{{i.qtd }}</td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}
