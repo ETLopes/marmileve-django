@@ -2,7 +2,7 @@ import datetime
 
 from django import forms
 
-from .models import Cliente, ItemPedido, Endereco, Pedido, Estoque
+from .models import Cliente, ItemPedido, Endereco, Pedido, Estoque, Frete
 
 
 class ClienteForm(forms.ModelForm):
@@ -21,6 +21,9 @@ class ClienteForm(forms.ModelForm):
         ]
 
 class EnderecoForm(forms.ModelForm):
+
+    bairro = forms.ModelChoiceField(queryset=Frete.objects.all(), to_field_name='bairro')
+    cidade = forms.ChoiceField(choices=(('Salvador', 'Salvador'),('Lauro de Freitas', 'Lauro de Freitas')))
 
     class Meta:
         model = Endereco

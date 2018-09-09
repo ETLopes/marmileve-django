@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Prato, Preco, Cliente, Endereco, Pedido, ItemPedido, Estoque, EstoqueCheck
+from .models import Prato, Preco, Cliente, Endereco, Pedido, ItemPedido, Estoque, EstoqueCheck, Frete
 
 
 # Register your models here.
@@ -55,6 +55,12 @@ class EstoqueCheckAdmin(admin.ModelAdmin):
     class Meta:
         model = EstoqueCheck
 
+class FreteAdmin(admin.ModelAdmin):
+    list_display = ['bairro', 'cidade', 'valorfrete']
+
+    class Meta:
+        model = Frete
+
 
 admin.site.register(Prato, PratoAdmin)
 admin.site.register(Cliente, ClienteAdmin)
@@ -64,3 +70,4 @@ admin.site.register(ItemPedido, ItemPedidoAdmin)
 admin.site.register(Preco, PrecoAdmin)
 admin.site.register(Estoque, EstoqueAdmin)
 admin.site.register(EstoqueCheck, EstoqueCheckAdmin)
+admin.site.register(Frete, FreteAdmin)

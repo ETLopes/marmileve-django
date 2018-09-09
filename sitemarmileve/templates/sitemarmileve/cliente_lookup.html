@@ -2,31 +2,62 @@
 
 {% block content %}
 
-<h2> Digite o nome do cliente abaixo</h2>
+<h5> Selecione abaixo o nome do cliente</h5>
 
 <form action="." method="POST"> {% csrf_token %}
 
-    <p>Nome: {{ form.nome }}</p>
-    <p>Email: {{ form.email }}</p>
-    <p>Cpf: {{ form.cpf }}</p>
+
+    <select name="nome" id="nome">
+        <option disabled selected> -------</option>
+        {% for i in cliente %}
+        <option value="{{ i.nome }}"> {{ i.nome }}</option>
+        {% endfor %}
+    </select>
 
 
     <input type="submit" value="Checar"/>
 </form>
 
+{% if request.method == "POST" %}
+<div class="card">
+    <h5 class="card-header">Dados do Cliente</h5>
+    <div class="card-body">
+        <h5 class="card-title">{{ cliente_select.nome }}</h5>
+        <p class="card-text">Email: {{ cliente_select.email }}</p>
+        <p class="card-text">Telefone: {{ cliente_select.telefone }}</p>
+        <p class="card-text">CPF: {{ cliente_select.cpf }}</p>
+        {% for i in endereco%}
+        <p class="card-text">Endereço: {{ i.endereco }}, {{ i.numero }}, {{i.complemento}}</p>
+        <a href="http://www.google.com/maps/search/{{i.endereco}}+{{i.numero}}+{{i.bairro}}"> Link do Google Maps</a>
+        <p class="card-text">Bairro: {{ i.bairro }}</p>
+        {% endfor%}
+    </div>
+</div>
 
-<h2>Endereço: </h2>
-{% for i in endereco%}
-<ul>
-    <li> Rua: {{i.endereco }}</li>
-    <li> Numero: {{i.numero }}</li>
-    <li> Complemento: {{i.complemento }}</li>
-    <li> Bairro: {{i.bairro }}</li>
-    <li> Cidade: {{ i.cidade }}</li>
 
-</ul>
+<div id="map" style="height: 400px; width: 100%"></div>
+<script>
+// Initialize and add the map
+function initMap() {
+  // The location of Uluru
+  var uluru = {lat: -25.344, lng: 131.036};
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 4, center: uluru});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: uluru, map: map});
+}
 
+</script>
+<!--Load the API from the specified URL
+* The async attribute allows the browser to render the page while the API loads
+* The key parameter will contain your own API key (which is not needed for this tutorial)
+* The callback parameter executes the initMap() function
+-->
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+</script>
 
-{% endfor%}
+{% endif %}
 
 {% endblock %}

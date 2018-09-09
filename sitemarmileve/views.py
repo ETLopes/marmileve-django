@@ -77,21 +77,26 @@ def cliente_success(request, id):
 
 def cliente_lookup(request):
     template_name = 'sitemarmileve/cliente_lookup.html'
+    cliente = Cliente.objects.all().order_by('nome')
     endereco = []
-    if request.method == 'GET':
-        form = ClienteForm()
-    else:
+
+    if request.method == 'POST':
         nome = request.POST.get('nome')
-        obj = Cliente.objects.get(nome=nome)
-        id = obj.id
-        for i in (Endereco.objects.filter(cliente_id=id)):
-            endereco.append(i)
+        print(nome)
+        cliente_select = Cliente.objects.get(nome=nome)
+        endereco = Endereco.objects.filter(cliente_id=cliente_select.id)
 
-        form = ClienteForm(instance=obj, )
+        context = {'cliente': cliente,
+                   'endereco': endereco,
+                   'cliente_select': cliente_select
+                   }
 
-    context = {'form': form,
-               'endereco': endereco
+        return render(request, template_name, context)
+
+    context = {'cliente': cliente,
+               'endereco': endereco,
                }
+
     return render(request, template_name, context)
 
 
@@ -132,7 +137,6 @@ def pedido_create(request):
         nome_lista2 = Cliente.objects.get(nome=nome)
 
         endereco_lista = Endereco.objects.filter(cliente_id=nome_lista2.id)
-
 
         context = {'form': form,
                    'nome': nome_lista,
@@ -205,7 +209,7 @@ def pedido_success(request, id):
     cliente = Cliente.objects.get(nome=pedido.nome)
     itempedido = ItemPedido.objects.filter(pedido_id=id)
     preco = Preco.objects.all()
-    endereco = Endereco.objects.get(endereco=pedido.endereco)
+    #endereco = Endereco.objects.get(endereco=pedido.endereco)
 
     def valortotal(itempedido):
         soma = 0
@@ -221,8 +225,11 @@ def pedido_success(request, id):
         elif qtd >= 15:
             soma = (float(soma) * 0.9)
 
-        bairro = Endereco.objects.get(endereco=pedido.endereco)
-        frete = Frete.objects.get(bairro=bairro.bairro)
+
+        get_bairro = Endereco.objects.filter(endereco=pedido.endereco)
+        for i in get_bairro:
+            bairro = i.bairro
+        frete = Frete.objects.get(bairro=bairro)
         print(frete)
         pedido.valortotal = (float(soma)) + float(frete.valorfrete)
         pedido.save()
@@ -234,7 +241,7 @@ def pedido_success(request, id):
         'pedido': pedido,
         'itempedido': itempedido,
         'valortotal': valortotal(itempedido),
-        'endereco': endereco
+
     }
 
     return render(request, template_name, context)
@@ -245,7 +252,6 @@ def pedido_lookup(request):
     pedidos = Pedido.objects.all()
 
     if request.method == 'POST':
-
         pedidoid = request.POST.get('dropdown_id')
         pedidos2 = Pedido.objects.get(id=pedidoid)
         dadoscliente = Cliente.objects.get(nome=pedidos2.nome)

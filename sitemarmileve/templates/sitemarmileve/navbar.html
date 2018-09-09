@@ -1,17 +1,42 @@
-<nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="../../../../../">Marmileve</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <ul style="list-style-type: none; margin: 0;padding: 0; overflow: hidden; background-color: #333">
-        <li style="float: left"><a
-                style="display: block;color: white;text-align: center;padding: 14px 16px;text-decoration: none; "
-                href="../../../../../">Home</a></li>
-        <li style="float: left"><a
-                style="display: block;color: white;text-align: center;padding: 14px 16px;text-decoration: none; "
-                href="../../../../../cliente/">Clientes</a></li>
-        <li style="float: left"><a
-                style="display: block;color: white;text-align: center;padding: 14px 16px;text-decoration: none; "
-                href="../../../../../pedido/">Pedidos</a></li>
-        <li style="float: left"><a
-                style="display: block;color: white;text-align: center;padding: 14px 16px;text-decoration: none; "
-                href="../../../../../estoque/">Estoque </a></li>
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="../../../../../cliente/" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Clientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="../../../../../cliente/cliente_create/">Adicionar Clientes</a>
+                    <a class="dropdown-item" href="../../../../../cliente/cliente_lookup/">Verificar Cliente</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="../../../../../pedido/" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Pedidos
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="../../../../../pedido/pedido_create/">Adicionar Pedido</a>
+                    <a class="dropdown-item" href="../../../../../pedido/pedido_lookup/">Verificar Pedido</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Estoque
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="../../../../../estoque/estoque_create/">Adicionar Estoque</a>
+                    <a class="dropdown-item" href="../../../../../estoque/estoque_lookup/">Verificar Estoque</a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </nav>
