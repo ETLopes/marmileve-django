@@ -1,1 +1,1 @@
-web: gunicorn sitemarmileve.wsgi --log-file -
+web: gunicorn marmileve.wsgi --log-file -
