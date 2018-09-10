@@ -79,7 +79,7 @@ class ItemPedido(models.Model):
 
 class EstoqueCheck(models.Model):
     source = models.CharField(max_length=200)
-    sourceid = models.PositiveSmallIntegerField()
+    sourceid = models.SmallIntegerField()
     prato = models.CharField(max_length=200)
     tamanho = models.CharField(max_length=1)
     qtd = models.PositiveSmallIntegerField()
