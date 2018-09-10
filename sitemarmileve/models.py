@@ -17,7 +17,7 @@ class Cliente(models.Model):
 class Endereco(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     endereco =models.CharField(max_length=200)
-    numero = models.PositiveSmallIntegerField()
+    numero = models.SmallIntegerField()
     complemento = models.CharField(max_length=200)
     bairro = models.CharField(max_length=200)
     cidade = models.CharField(max_length=200)
@@ -28,7 +28,7 @@ class Endereco(models.Model):
 
 
 class Prato(models.Model):
-    pratonumero = models.PositiveSmallIntegerField()
+    pratonumero = models.SmallIntegerField()
     prato = models.CharField(max_length=200)
     active = models.BooleanField(default=True)
 
@@ -48,7 +48,7 @@ class Preco(models.Model):
 class Estoque(models.Model):
     prato = models.ForeignKey(Prato, on_delete=models.CASCADE)
     tamanho = models.CharField(max_length=1, choices=(('P', 'Pequeno'), ('G', 'Grande'), ('S', 'Sopa')))
-    qtd = models.PositiveSmallIntegerField()
+    qtd = models.SmallIntegerField()
     data_fabricacao = models.DateField()
 
 
@@ -70,7 +70,7 @@ class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     prato = models.CharField(max_length=200)
     tamanho = models.CharField(max_length=1, choices=(('P', 'Pequeno'), ('G', 'Grande'), ('S', 'Sopa')))
-    qtd = models.PositiveSmallIntegerField()
+    qtd = models.SmallIntegerField()
     data_pedido = models.DateField(auto_now=True)
 
     def __str__(self):
