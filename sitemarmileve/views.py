@@ -212,7 +212,7 @@ def pedido_success(request, id):
     #endereco = Endereco.objects.get(endereco=pedido.endereco)
 
     def valortotal(itempedido):
-        soma = 0
+        soma = 0.00
         qtd = 0
         for i in itempedido:
             for j in preco:

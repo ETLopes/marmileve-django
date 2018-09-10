@@ -16,8 +16,8 @@ class Cliente(models.Model):
 
 class Endereco(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    endereco = models.CharField(max_length=200)
-    numero = models.IntegerField()
+    endereco =models.CharField(max_length=200)
+    numero = models.PositiveSmallIntegerField()
     complemento = models.CharField(max_length=200)
     bairro = models.CharField(max_length=200)
     cidade = models.CharField(max_length=200)
@@ -28,7 +28,7 @@ class Endereco(models.Model):
 
 
 class Prato(models.Model):
-    pratonumero = models.SmallIntegerField()
+    pratonumero = models.PositiveSmallIntegerField()
     prato = models.CharField(max_length=200)
     active = models.BooleanField(default=True)
 
@@ -38,7 +38,7 @@ class Prato(models.Model):
 
 class Preco(models.Model):
     tamanho = models.CharField(max_length=1, choices=(('P', 'Pequeno'), ('G', 'Grande'), ('S', 'Sopa')))
-    preco = models.DecimalField(decimal_places=2, max_digits=4)
+    preco = models.FloatField()
     data_ativo = models.DateField()  # A data a partir da qual tamanho e preço são validos para cada prato.
 
     def ___str__(self):
@@ -60,7 +60,7 @@ class Pedido(models.Model):
     nome = models.CharField(max_length=200)
     endereco = models.CharField(max_length=200, default="a")
     data = models.DateField(auto_now=True)
-    valortotal = models.DecimalField(default=None, decimal_places=2, max_digits=4, null=True)
+    valortotal = models.FloatField(default=None, null=True)
 
     def __str__(self):
         return str(self.nome)
@@ -79,15 +79,15 @@ class ItemPedido(models.Model):
 
 class EstoqueCheck(models.Model):
     source = models.CharField(max_length=200)
-    sourceid = models.IntegerField()
+    sourceid = models.PositiveSmallIntegerField()
     prato = models.CharField(max_length=200)
     tamanho = models.CharField(max_length=1)
-    qtd = models.IntegerField()
+    qtd = models.PositiveSmallIntegerField()
 
 class Frete(models.Model):
     bairro = models.CharField(max_length=200)
     cidade = models.CharField(max_length=200)
-    valorfrete = models.DecimalField(decimal_places=2, max_digits=4)
+    valorfrete = models.FloatField()
 
     def __str__(self):
         return str(self.bairro)
