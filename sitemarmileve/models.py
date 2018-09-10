@@ -82,7 +82,7 @@ class EstoqueCheck(models.Model):
     sourceid = models.SmallIntegerField()
     prato = models.CharField(max_length=200)
     tamanho = models.CharField(max_length=1)
-    qtd = models.PositiveSmallIntegerField()
+    qtd = models.SmallIntegerField()
 
 class Frete(models.Model):
     bairro = models.CharField(max_length=200)
