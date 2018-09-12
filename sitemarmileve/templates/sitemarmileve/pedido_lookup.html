@@ -13,27 +13,53 @@
 
 <h2>Dados sobre o Pedido</h2>
 
-<ul>
-    <li> {{ pedidos2.nome }} </li>
-    <li> {{ pedidos2.endereco }} </li>
-    <li> {{ dadoscliente.email }} </li>
-    <li> {{ pedidos2.valortotal }} </li>
-</ul>
+<div>
+    <table class="table table-light">
+        <tbody>
+        <tr>
+            <th><h6>Cliente: </h6></th>
+            <td><h6>{{ pedido.nome }}</h6></td>
+        </tr>
+        <tr>
+            <th><h6>Endereço:</h6></th>
+            <td><h6><a
+                    href="https://maps.google.com/?q={{pedido.endereco}}+{{endereco.numero}}+{{endereco.bairro}}/">
+                {{pedido.endereco}} ,
+                {{ endereco.numero}} - {{endereco.complemento}}</a></h6></td>
 
-<table border="1px">
+        </tr>
+        <tr>
+            <th><h6>Telefone:</h6></th>
+            <td><h6>{{ cliente.telefone }}</h6></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
+<table class="table table-striped">
+    <thead class="thead-dark">
     <tr>
         <th>Nome do Prato</th>
         <th>Tam.</th>
         <th>Qtd.</th>
     </tr>
-{% for i in itempedido %}
-    <tr>
-        <td width="300px" align="left">{{i.prato}}</td>
-        <td width="50px" align="center">{{ i.tamanho|upper }}</td>
-        <td width="50px"align="center">{{i.qtd }}</td>
-    </tr>
-{% endfor %}
+    </thead>
+    <tobdy>
+        {% for i in itempedido %}
+        <tr>
+            <td width="300px" align="left">{{i.prato}}</td>
+            <td width="50px" align="center">{{ i.tamanho }}</td>
+            <td width="50px" align="center">{{i.qtd }}</td>
+        </tr>
+        {% endfor %}
+    </tobdy>
 </table>
+
+
+<div class="container-fluid">
+    <h5 class="text-right">Subtotal = {{pedido.valortotal|add:frete2 }} </h5>
+    <h5 class="text-right">Frete = {{frete.valorfrete}} </h5>
+    <h5 class="text-right"><strong>Valor total = {{pedido.valortotal}}</strong></h5>
+</div>
 
 {% endblock %}

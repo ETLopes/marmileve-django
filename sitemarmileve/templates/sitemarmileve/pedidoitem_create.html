@@ -1,57 +1,74 @@
 {% extends 'sitemarmileve/base.html' %}
 
-<h1>Pedido - {{pedidos.id}} - {{pedidos.nome}} </h1>
 
 {% block content %}
 
-<form action="." method="POST"> {% csrf_token %}
-    <ol>
-        <li>
-            <select name="dropdown_prato">
+<body style="background-color: #a0e36b">
+
+
+<div class="container-fluid">
+    <br>
+    <h2>Pedido #{{pedidos.id}}</h2>
+    <form action="." method="POST"> {% csrf_token %}
+
+        <div class="form-group">
+            <label for="prato">Prato: </label>
+            <select id="prato" class="custom-select" name="dropdown_prato">
                 {% for i in produtos %}
                 <option value="{{ i.prato }}">{{forloop.counter}} - {{ i.prato }}</option>
                 {% endfor %}
             </select>
-        </li>
-        <li>
-            <select name="dropdown_tamanho">
-                {% for i in tamanho %}
-                <option value="{{ i }}">{{ i }}</option>
-                {% endfor %}
-            </select>
-        </li>
-        <li>
-            <select name="dropdown_qtd">
-                {% for i in qtd %}
-                <option value="{{ i }}">{{ i }}</option>
-                {% endfor %}
-            </select>
+        </div>
+        <div class="row">
+            <div class="form-group col">
+                <label for="tamanho">Tamanho: </label>
+                <select id="tamanho" class="custom-select" name="dropdown_tamanho">
+                    {% for i in tamanho %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col">
+                <label for="qtd">Quantidade: </label>
+                <select id="qtd" class="custom-select" name="dropdown_qtd">
+                    {% for i in qtd %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <input type="submit" value="Adicionar" class="btn btn-primary"/>
+    </form>
+</div>
+<br>
+<div class="container-fluid">
 
-        </li>
-
-    </ol>
-    <input type="submit" value="Save" class="btn btn-primary""/>
-</form>
-
-
-
-<table border="1px">
-
-    <tr>
-        <th>Nome do Prato</th>
-        <th>Tam.</th>
-        <th>Qtd.</th>
-    </tr>
-{% for i in itempedido %}
-    <tr>
-        <td width="300px" align="left">{{i.prato}}</td>
-        <td width="50px" align="center">{{ i.tamanho|upper }}</td>
-        <td width="50px"align="center">{{i.qtd }}</td>
-    </tr>
-{% endfor %}
-</table>
+    <table class="table table-hover">
+        <thead style="background-color: #AFD56C">
+        <tr>
+            <th>Nome do Prato</th>
+            <th>Tam.</th>
+            <th>Qtd.</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in itempedido %}
+        <tr>
+            <td width="300px" align="left">{{i.prato}}</td>
+            <td width="50px" align="center">{{ i.tamanho|upper }}</td>
+            <td width="50px" align="center">{{i.qtd }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 
-<a class="btn btn-primary" href="/pedido/pedido_create/{{pedidos.id}}/pedidoitem_create/pedido_success">Finalizar</a>
+    <a class="btn btn-primary"
+       href="/pedido/pedido_create/{{pedidos.id}}/pedidoitem_create/pedido_success">Finalizar</a>
+
+</div>
+
+
+</body>
 
 {% endblock %}

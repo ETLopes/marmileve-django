@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from .forms import ClienteForm, PedidoForm, AddItemForm, EnderecoForm, EstoqueForm
 from .models import Cliente, Pedido, ItemPedido, Prato, Endereco, Estoque, EstoqueCheck, Preco, Frete
 from django.db.models import Sum
@@ -68,7 +68,7 @@ def endereco_create(request, id):
 
 def cliente_success(request, id):
     obj_cliente = get_object_or_404(Cliente, pk=id)
-    obj_endereco = get_object_or_404(Endereco, cliente_id=id)
+    obj_endereco = Endereco.objects.filter(cliente_id=id).order_by('-id')[0]
 
     template_name = 'sitemarmileve/cliente_success.html'
 
@@ -133,6 +133,8 @@ def pedido_create(request):
         form = PedidoForm()
 
         nome = request.POST.get('dropdown_nome')
+        print(nome)
+        print(request.method)
         nome_lista = Cliente.objects.filter(nome=nome)
         nome_lista2 = Cliente.objects.get(nome=nome)
 
@@ -208,39 +210,35 @@ def pedido_success(request, id):
     pedido = Pedido.objects.get(pk=id)
     cliente = Cliente.objects.get(nome=pedido.nome)
     itempedido = ItemPedido.objects.filter(pedido_id=id)
-    preco = Preco.objects.all()
-    #endereco = Endereco.objects.get(endereco=pedido.endereco)
+    endereco = Endereco.objects.get(cliente_id=cliente.id, endereco=pedido.endereco)
+    frete = Frete.objects.get(bairro=endereco.bairro)
 
-    def valortotal(itempedido):
-        soma = 0.00
-        qtd = 0
+
+    def subtotal():
+        subtotal = 0
+
         for i in itempedido:
-            for j in preco:
-                if i.tamanho == j.tamanho:
-                    soma += (j.preco * i.qtd)
-                    qtd += int(i.qtd)
-        print(qtd)
-        if qtd >= 25:
-            soma = (float(soma) * 0.85)
-        elif qtd >= 15:
-            soma = (float(soma) * 0.9)
+            preco = Preco.objects.get(tamanho=i.tamanho)
+
+            subtotal = subtotal + (i.qtd * preco.preco)
 
 
-        get_bairro = Endereco.objects.filter(endereco=pedido.endereco)
-        for i in get_bairro:
-            bairro = i.bairro
-        frete = Frete.objects.get(bairro=bairro)
-        print(frete)
-        pedido.valortotal = (float(soma)) + float(frete.valorfrete)
+
+        total = subtotal + frete.valorfrete
+
+        pedido.valortotal = total
         pedido.save()
 
-        return pedido.valortotal
+
+        return subtotal
 
     context = {
         'cliente': cliente,
         'pedido': pedido,
         'itempedido': itempedido,
-        'valortotal': valortotal(itempedido),
+        'subtotal': subtotal(),
+        'endereco': endereco,
+        'frete': frete,
 
     }
 
@@ -249,21 +247,32 @@ def pedido_success(request, id):
 
 def pedido_lookup(request):
     template_name = 'sitemarmileve/pedido_lookup.html'
-    pedidos = Pedido.objects.all()
+
+    lista_pedidos = Pedido.objects.all().order_by('-id')
 
     if request.method == 'POST':
-        pedidoid = request.POST.get('dropdown_id')
-        pedidos2 = Pedido.objects.get(id=pedidoid)
-        dadoscliente = Cliente.objects.get(nome=pedidos2.nome)
-        itempedido = ItemPedido.objects.filter(pedido_id=pedidoid)
-        context = {'pedidos': pedidos,
-                   'pedidos2': pedidos2,
-                   'dadoscliente': dadoscliente,
-                   'itempedido': itempedido}
+        pedido_id = request.POST.get('dropdown_id')
+        lista_pedidos = Pedido.objects.all().order_by('-id')
+        pedido = Pedido.objects.get(id=pedido_id)
+        cliente = Cliente.objects.get(nome=pedido.nome)
+        itempedido = ItemPedido.objects.filter(pedido_id=pedido.id)
+        endereco = Endereco.objects.get(cliente_id=cliente.id, endereco=pedido.endereco)
+        frete = Frete.objects.get(bairro=endereco.bairro)
+        frete2 = ((frete.valorfrete) * -1)
+        print(frete2)
+
+        context = {'pedido': pedido,
+                   'cliente': cliente,
+                   'itempedido': itempedido,
+                   'endereco': endereco,
+                   'frete': frete,
+                   'pedidos': lista_pedidos,
+                   'frete2': frete2
+                   }
 
         return render(request, template_name, context)
 
-    context = {'pedidos': pedidos}
+    context = {'pedidos': lista_pedidos}
     return render(request, template_name, context)
 
 

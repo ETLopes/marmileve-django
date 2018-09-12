@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['sitemarmileve.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['sitemarmileve.herokuapp.com', 'localhost','192.168.0.113']
 
 
 # Application definition

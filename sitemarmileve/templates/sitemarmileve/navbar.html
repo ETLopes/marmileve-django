@@ -1,18 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark" id="main-navbar">
     <a class="navbar-brand" href="../../../../../">Marmileve</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="../../../../../cliente/" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Clientes
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="navbar-dropdown">
                     <a class="dropdown-item" href="../../../../../cliente/cliente_create/">Adicionar Clientes</a>
                     <a class="dropdown-item" href="../../../../../cliente/cliente_lookup/">Verificar Cliente</a>
                 </div>
@@ -22,7 +24,7 @@
                    aria-haspopup="true" aria-expanded="false">
                     Pedidos
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="navbar-dropdown">
                     <a class="dropdown-item" href="../../../../../pedido/pedido_create/">Adicionar Pedido</a>
                     <a class="dropdown-item" href="../../../../../pedido/pedido_lookup/">Verificar Pedido</a>
                 </div>
@@ -32,7 +34,7 @@
                    aria-haspopup="true" aria-expanded="false">
                     Estoque
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="navbar-dropdown">
                     <a class="dropdown-item" href="../../../../../estoque/estoque_create/">Adicionar Estoque</a>
                     <a class="dropdown-item" href="../../../../../estoque/estoque_lookup/">Verificar Estoque</a>
                 </div>

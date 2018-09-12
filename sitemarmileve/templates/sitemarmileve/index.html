@@ -2,7 +2,16 @@
 
 
 {% block content %}
-    <h2> Marmileve - Início</h2>
-    <strong><p>Bem vindo, {{ request.user }}! </p></strong>
+<header>
+	<div class="container marmileve-bannerWrapper">
+		<div class="marmileve-banner">
+			<h2> Marmileve</h2>
+			<strong><p>Bem vindo, {{ request.user }}! </p></strong>
+			<a class="btn btn-primary" href="https://wa.me/5571988670764" role="button">Contate-nos agora</a>
+		</div>
+	</div>
+	
+</header>
+
 
 {% endblock %}

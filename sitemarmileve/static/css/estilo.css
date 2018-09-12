@@ -1,0 +1,48 @@
+#main-navbar {
+    background-color: #f27d00;
+    color: #FFF;
+}
+
+#navbar-dropdown {
+	background-color: #a0e36b;
+	color: #FFF;
+
+}
+
+html, body {
+	height: 100%;
+}
+
+header {
+	background-image: url(background.jpg);
+	background-size: cover;
+	background-position: top center;
+	height: 100%;
+}
+
+.marmileve-banner {
+	color: #FFF;
+	background-color: rgba(0,0,0, 0.5);
+	padding: 20px;
+	width: 80%;
+	border-radius: 8px;
+	position: absolute;
+	top: 60%;
+	transform: translate(-50%, -50%);
+	left: 50%;
+	transition: 0.3s;
+
+}
+
+@media (min-width: 992px) {
+	.marmileve-banner {
+		left:0;
+		transform: translate(0, -80%);
+		width: 50%
+	}
+	.marmileve-bannerWrapper {
+		position: relative;
+		height: 100%;
+	}
+}
+

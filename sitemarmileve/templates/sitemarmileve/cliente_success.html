@@ -2,9 +2,51 @@
 
 {% block content %}
 
-<h2>Cliente criado com sucesso</h2>
+<body style="background-color: #a0e36b">
+<div class="container-fluid">
+    <h2 class="text-center" style="color:#806136">Cliente criado com Sucesso!</h2>
+</div>
+<br>
+<div class="container-fluid">
+    <h3 class="text-center" style="color:#806136">Confira os dados abaixo:</h3>
 
-{{ obj_cliente.nome }}
-{{ obj_endereco.endereco }}
+</div>
+<table class="table">
+    <tbody>
+        <tr>
+          <th>Nome</th>
+            <td><h5>{{ obj_cliente.nome }}</h5></td>
+        </tr>
+        <tr>
+          <th>Telefone</th>
+            <td><h5>{{ obj_cliente.telefone }}</h5></td>
+        </tr>
+        <tr>
+          <th>Email</th>
+            <td><h5>{{ obj_cliente.email }}</h5></td>
+        </tr>
+        <tr>
+          <th>CPF</th>
+            <td><h5>{{ obj_cliente.cpf }}</h5></td>
+        </tr>
+        <tr>
+          <th>Endereco</th>
+            <td><h5>{{ obj_endereco.endereco }}, {{ obj_endereco.numero }}, {{ obj_endereco.complemento}}</h5></td>
+        </tr>
+        <tr>
+          <th>Bairro</th>
+            <td><h5>{{ obj_endereco.bairro }}</h5></td>
+        </tr>
+        <tr>
+          <th>CPF</th>
+            <td><h5>{{ obj_endereco.cidade }}</h5></td>
+        </tr>
+
+    </tbody>
+</table>
+
+</body>
+
+
 
 {% endblock %}

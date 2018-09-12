@@ -2,21 +2,18 @@
 
 {% block content %}
 
-<ul>
-    <li>
-        {{obj_cliente.nome}}
-    </li>
-</ul>
+<body style="background-color: #a0e36b">
 
 
-<ol>
-    <li>
+<div>
+    <h2 class="text-center" style="color:#806136" >{{obj_cliente.nome}}</h2>
+</div>
+<div class='container-fluid'>
         <form action="." method="POST"> {% csrf_token %}
 
             {{ form.as_p }}
-        <input type="submit" value="Save"/>
+        <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
-    </li>
-</ol>
-
+</div>
+</body>
 {% endblock %}

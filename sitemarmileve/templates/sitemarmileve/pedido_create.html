@@ -1,23 +1,34 @@
 {% extends 'sitemarmileve/base.html' %}
 
 {% block content %}
+<body style="background-color: #a0e36b">
 <br>
-<form action="." method="POST"> {% csrf_token %}
-    <select name="dropdown_nome">
-        {% for i in nome %}
-        <option value="{{ i }}"> {{ i }}</option>
-        {% endfor %}
-    </select>
+<div class="container-fluid">
 
-    <select name="dropdown_endereco">
-        {% for i in endereco %}
-        <option value="{{ i }}">{{forloop.counter}} - {{ i }}</option>
-        {% endfor %}
-    </select>
+    <form action="." method="POST"> {% csrf_token %}
+        <div>
 
+            <select class="custom-select" name="dropdown_nome" style="margin-bottom: 10px">
+                {% for i in nome %}
+                <option value="{{ i }}"> {{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            {% if request.method == 'POST' %}
+            <select class="custom-select" name="dropdown_endereco"">
+                {% for i in endereco %}
+                <option value="{{ i }}">{{forloop.counter}} - {{ i }}</option>
+                {% endfor %}
+            </select>
+            {% endif %}
+        </div>
+        <br>
 
-    <input type="submit" value="Save"/>
-</form>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+</body>
 
 
 {% endblock %}
