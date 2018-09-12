@@ -2,64 +2,70 @@
 
 {% block content %}
 
-<form action="." method="POST"> {% csrf_token %}
-    <select name="dropdown_id">
-        {% for i in pedidos %}
-        <option value="{{ i.id }}"> {{ i.id }} - {{ i.nome }}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Check"/>
+<body style="background-color: #a0e36b">
+<div class="container-fluid">
+    <form class="form-group" action="." method="POST" style="margin-top: 10px">{% csrf_token %}
+        <select class="form-control" name="dropdown_id" id="">
+            {% for i in pedidos %}
+            <option value="{{ i.id }}"> {{ i.id }} - {{ i.nome }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" class="btn btn-primary" value="Verificar" style="margin-top: 10px"/>
+    </form>
+</div>
+<h2 class="text-center">Dados sobre o Pedido #{{ pedido.id }}</h2>
+<form>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="form-group col">
+                <label for="nome" class="col-form-label"><strong>Nome</strong></label>
+                <input type="text" readonly class="form-control-plaintext" id="nome" value=" {{ cliente.nome }} ">
+            </div>
+            <div class="form-group col">
+                <label for="nome" class="col-form-label"><strong>Telefone</strong></label>
+                <input type="text" readonly class="form-control-plaintext" id="nome" value=" {{ cliente.telefone }} ">
+            </div>
+        </div>
+        <div>
+            <label for="nome" class="col-form-label"><strong>Email</strong></label>
+            <input type="text" readonly class="form-control-plaintext" id="nome" value=" {{ cliente.email }} ">
+        </div>
+        <div>
+            <label for="nome" class="col-form-label"><strong>Endereco: </strong></label>
+            <a href="http://www.google.com/maps/search/{{endereco.endereco}}+{{endereco.numero}}+{{endereco.bairro}}">
+                {{endereco.endereco}},{{endereco.numero}},{{endereco.complemento}}</a>
+        </div>
+    </div>
+
 </form>
 
-<h2>Dados sobre o Pedido</h2>
-
-<div>
-    <table class="table table-light">
-        <tbody>
-        <tr>
-            <th><h6>Cliente: </h6></th>
-            <td><h6>{{ pedido.nome }}</h6></td>
-        </tr>
-        <tr>
-            <th><h6>Endereço:</h6></th>
-            <td><h6><a
-                    href="https://maps.google.com/?q={{pedido.endereco}}+{{endereco.numero}}+{{endereco.bairro}}/">
-                {{pedido.endereco}} ,
-                {{ endereco.numero}} - {{endereco.complemento}}</a></h6></td>
-
-        </tr>
-        <tr>
-            <th><h6>Telefone:</h6></th>
-            <td><h6>{{ cliente.telefone }}</h6></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<table class="table table-striped">
+<table class="table table-hover">
     <thead class="thead-dark">
-    <tr>
-        <th>Nome do Prato</th>
-        <th>Tam.</th>
-        <th>Qtd.</th>
-    </tr>
+        <tr>
+            <th> Prato </th>
+            <th> Tamanho </th>
+            <th> Qtd </th>
+        </tr>
     </thead>
-    <tobdy>
         {% for i in itempedido %}
         <tr>
-            <td width="300px" align="left">{{i.prato}}</td>
-            <td width="50px" align="center">{{ i.tamanho }}</td>
-            <td width="50px" align="center">{{i.qtd }}</td>
+            <th>{{ i.prato }}</th>
+            <th>{{ i.tamanho }}</th>
+            <th>{{ i.qtd }}</th>
         </tr>
         {% endfor %}
-    </tobdy>
+    <tbody>
+
+    </tbody>
 </table>
 
-
 <div class="container-fluid">
-    <h5 class="text-right">Subtotal = {{pedido.valortotal|add:frete2 }} </h5>
-    <h5 class="text-right">Frete = {{frete.valorfrete}} </h5>
-    <h5 class="text-right"><strong>Valor total = {{pedido.valortotal}}</strong></h5>
+    <h3 class="text-right"> Subtotal: {{ subtotal}}</h3>
+    <h3 class="text-right"> Frete: {{ frete.valorfrete}}</h3>
+    <h3 class="text-right"> Total: {{ pedido.valortotal}}</h3>
+
 </div>
 
+
+</body>
 {% endblock %}

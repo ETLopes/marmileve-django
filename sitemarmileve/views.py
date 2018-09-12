@@ -258,8 +258,8 @@ def pedido_lookup(request):
         itempedido = ItemPedido.objects.filter(pedido_id=pedido.id)
         endereco = Endereco.objects.get(cliente_id=cliente.id, endereco=pedido.endereco)
         frete = Frete.objects.get(bairro=endereco.bairro)
-        frete2 = ((frete.valorfrete) * -1)
-        print(frete2)
+        subtotal = pedido.valortotal - frete.valorfrete
+
 
         context = {'pedido': pedido,
                    'cliente': cliente,
@@ -267,7 +267,7 @@ def pedido_lookup(request):
                    'endereco': endereco,
                    'frete': frete,
                    'pedidos': lista_pedidos,
-                   'frete2': frete2
+                   'subtotal': subtotal,
                    }
 
         return render(request, template_name, context)

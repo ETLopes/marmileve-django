@@ -1,13 +1,13 @@
 {% extends 'sitemarmileve/base.html' %}
 
 {% block content %}
-
+<body style="background-color: #a0e36b">
 <h5> Selecione abaixo o nome do cliente</h5>
 
 <form action="." method="POST"> {% csrf_token %}
 
 
-    <select name="nome" id="nome">
+    <select name="nome" class="form-control" id="nome">
         <option disabled selected> -------</option>
         {% for i in cliente %}
         <option value="{{ i.nome }}"> {{ i.nome }}</option>
@@ -15,7 +15,7 @@
     </select>
 
 
-    <input type="submit" value="Checar"/>
+    <input type="submit" class="btn btn-primary" value="Checar"/>
 </form>
 
 {% if request.method == "POST" %}
@@ -59,5 +59,5 @@ function initMap() {
 </script>
 
 {% endif %}
-
+</body>
 {% endblock %}
