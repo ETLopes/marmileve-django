@@ -216,17 +216,22 @@ def pedido_success(request, id):
 
     def subtotal():
         subtotal = 0
-
+        qtd = 0
         for i in itempedido:
             preco = Preco.objects.get(tamanho=i.tamanho)
+            qtd = qtd + i.qtd
 
             subtotal = subtotal + (i.qtd * preco.preco)
 
+        if qtd >= 25:
+            subtotal = subtotal * 0.9
+        elif qtd >= 15:
+            subtotal = subtotal * 0.85
 
 
         total = subtotal + frete.valorfrete
 
-        pedido.valortotal = total
+        pedido.valortotal = float(total)
         pedido.save()
 
 

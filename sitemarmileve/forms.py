@@ -64,7 +64,7 @@ class EnderecoForm(forms.ModelForm):
         }
     ))
 
-    bairro = forms.ModelChoiceField(queryset=Frete.objects.all(), to_field_name='bairro', widget=forms.Select(
+    bairro = forms.ModelChoiceField(queryset=Frete.objects.all().order_by('bairro'), to_field_name='bairro', widget=forms.Select(
         attrs={
             'class': 'form-control'
         })
@@ -78,6 +78,7 @@ class EnderecoForm(forms.ModelForm):
 
     class Meta:
         model = Endereco
+        ordering = ['bairro']
         fields = [
             'endereco',
             'numero',
